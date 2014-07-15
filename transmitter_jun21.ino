@@ -23,7 +23,7 @@ void setup()
 
 void loop()
 {
-    delay(1000);
+    delay(1500);
     int lightPinC1 = analogRead(lightPin);
     int tempPinC1 = analogRead(tempPin);
     char msg[24];
