@@ -3,7 +3,7 @@
 #undef round
 int lightPin = 0; 
 int tempPin = 1; 
-int count;
+int count = 1;
 int lastLight;
 
 void setup()
@@ -14,16 +14,16 @@ void setup()
     // Initialise the IO and ISR
     vw_set_tx_pin(3);
     vw_set_ptt_inverted(true); // Required for DR3100
-    vw_setup(2000);       // Bits per sec
+    vw_setup(1200);       // Bits per sec
     //get setting for lastLight
     lastLight = analogRead(lightPin);
     randomSeed(analogRead(3));
-    count = random(1, 990);
+    //count = random(1, 990);
 }
 
 void loop()
 {
-    delay(2000);
+    delay(1000);
     int lightPinC1 = analogRead(lightPin);
     int tempPinC1 = analogRead(tempPin);
     char msg[24];
@@ -35,7 +35,7 @@ void loop()
     
     int RadioCount = 0;
     randomSeed(analogRead(3));
-    int randNumber = random(10, 850);
+    int randNumber = random(1, 19);
     sprintf(msg, "S:1#L:%i#T:%i#R:%i#C:%i", lightPinC1,tempPinC1,randNumber,count);
     Serial.println(msg);
     digitalWrite(13, true);
@@ -43,8 +43,9 @@ void loop()
     vw_wait_tx();
     digitalWrite(13, false);
     RadioCount++;
-    Serial.print("Random: ");
-    Serial.println(randNumber);
+    //Serial.print("Random: ");
+    //Serial.println(randNumber);
  
-    lastLight = lightPinC1;            
+    lastLight = lightPinC1;  
+    count++;    
 }
