@@ -3,7 +3,7 @@
 int count = 1;
 int numbers[6]; // Change 3 to number of integers you wish to send.
 int TemperatureSensorPin = 0;
-
+int LightSensorPin = 1;
 
 
 void setup()
@@ -20,12 +20,12 @@ void loop()
 {
   //Get Temp Readings
   int TemperatureReading = analogRead(TemperatureSensorPin);  
-  
+  int LightReading = analogRead(LightSensorPin); 
   
   
   // Initialize to some sample values
   numbers[0] = 999;                   //sensorid
-  numbers[1] = 123;                   //light reading
+  numbers[1] = LightReading;          //light reading
   numbers[2] = TemperatureReading;    //temp reading
   numbers[3] = 789;                   //random 1
   numbers[4] = 12;                    //random 2
