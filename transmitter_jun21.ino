@@ -1,7 +1,7 @@
 #include <VirtualWire.h>
 
 int count = 1;
-int numbers[10]; // Change 3 to number of integers you wish to send.
+int numbers[6]; // Change 3 to number of integers you wish to send.
 
 void setup()
 {
@@ -16,20 +16,17 @@ void setup()
 void loop()
 {
   // Initialize to some sample values
-  numbers[0] = 32767;
-  numbers[1] = -2;
-  numbers[2] = 0;
-  numbers[3] = count;
-  numbers[4] = count;
-  numbers[5] = count;
-  numbers[6] = count;
-  numbers[7] = count;
-  numbers[8] = count;
-  numbers[9] = 9999;
-  
+  numbers[0] = 999;     //sensorid
+  numbers[1] = 123;   //light reading
+  numbers[2] = 456;   //temp reading
+  numbers[3] = 789;   //random 1
+  numbers[4] = 12;   //random 2
+  numbers[5] = count; //count
+
   vw_send( (uint8_t *)numbers, sizeof(numbers));
   vw_wait_tx();  // Wait for message to finish
-  delay(1000);
+  Serial.println("Message sent");
+  delay(8000);
 
   count++;    
 }
