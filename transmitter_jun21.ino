@@ -2,6 +2,9 @@
 
 int count = 1;
 int numbers[6]; // Change 3 to number of integers you wish to send.
+int TemperatureSensorPin = 0;
+
+
 
 void setup()
 {
@@ -15,13 +18,18 @@ void setup()
 
 void loop()
 {
+  //Get Temp Readings
+  int TemperatureReading = analogRead(TemperatureSensorPin);  
+  
+  
+  
   // Initialize to some sample values
-  numbers[0] = 999;     //sensorid
-  numbers[1] = 123;   //light reading
-  numbers[2] = 456;   //temp reading
-  numbers[3] = 789;   //random 1
-  numbers[4] = 12;   //random 2
-  numbers[5] = count; //count
+  numbers[0] = 999;                   //sensorid
+  numbers[1] = 123;                   //light reading
+  numbers[2] = TemperatureReading;    //temp reading
+  numbers[3] = 789;                   //random 1
+  numbers[4] = 12;                    //random 2
+  numbers[5] = count;                 //count
 
   vw_send( (uint8_t *)numbers, sizeof(numbers));
   vw_wait_tx();  // Wait for message to finish
