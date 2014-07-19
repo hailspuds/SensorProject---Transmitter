@@ -1,51 +1,32 @@
 #include <VirtualWire.h>
 
-#undef round
-int lightPin = 0; 
-int tempPin = 1; 
 int count = 1;
-int lastLight;
+int numbers[3]; // Change 3 to number of integers you wish to send.
 
 void setup()
 {
-    Serial.begin(9600);        // Debugging only
-    Serial.println("setup");
+  Serial.begin(9600);
+  Serial.println("Setting up Transmitter");
 
-    // Initialise the IO and ISR
-    vw_set_tx_pin(3);
-    vw_set_ptt_inverted(true); // Required for DR3100
-    vw_setup(1200);       // Bits per sec
-    //get setting for lastLight
-    lastLight = analogRead(lightPin);
-    randomSeed(analogRead(3));
-    //count = random(1, 990);
+  vw_set_tx_pin(3);
+  vw_set_ptt_inverted(true);
+  vw_setup(1200); // Bits per sec
+
+  // Initialize to some sample values
+  numbers[0] = 32767;
+  numbers[1] = -2;
+  numbers[2] = 0;
 }
 
 void loop()
 {
-    delay(1500);
-    int lightPinC1 = analogRead(lightPin);
-    int tempPinC1 = analogRead(tempPin);
-    char msg[24];
-    
-    float percentCheck = lastLight * .25;
-    
-    //If light level has changed by the above percentage, then send via radio. Otherwise, go back to sleep.
-    //This is to save power. There's no point transmitting the same thing.
-    
-    int RadioCount = 0;
-    randomSeed(analogRead(3));
-    int randNumber = random(1, 19);
-    sprintf(msg, "S:1#L:%i#T:%i#R:%i#C:%i", lightPinC1,tempPinC1,randNumber,count);
-    Serial.println(msg);
-    digitalWrite(13, true);
-    vw_send((uint8_t *)msg, strlen(msg));
-    vw_wait_tx();
-    digitalWrite(13, false);
-    RadioCount++;
-    //Serial.print("Random: ");
-    //Serial.println(randNumber);
- 
-    lastLight = lightPinC1;  
-    count++;    
+  vw_send( (uint8_t *)numbers, sizeof(numbers));
+  vw_wait_tx();  // Wait for message to finish
+  delay(1000);
+
+  numbers[0]--;  // decrement
+  numbers[1]++;  // increment
+  numbers[2]++;  // increment
+  count++;    
 }
+
