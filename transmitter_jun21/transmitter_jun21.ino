@@ -38,7 +38,7 @@ void loop()
   numbers[1] = LightReading;          //light reading
   numbers[2] = TemperatureReading;    //temp reading
   numbers[3] = CodeVersion;           //random 1 - version of the transmitter code
-  numbers[4] = 12;                    //random 2 - Transmitter estimation on light status (1 = on, 0 = off)
+  numbers[4] = LightStatus;           //random 2 - Transmitter estimation on light status (1 = on, 0 = off)
   numbers[5] = count;                 //count
 
   vw_send( (uint8_t *)numbers, sizeof(numbers));
