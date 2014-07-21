@@ -4,7 +4,8 @@ int count = 1;
 int numbers[6]; // Change 3 to number of integers you wish to send.
 int TemperatureSensorPin = 0;
 int LightSensorPin = 1;
-
+int CodeVersion = 2;
+int LightStatus = 0;
 
 void setup()
 {
@@ -22,13 +23,22 @@ void loop()
   int TemperatureReading = analogRead(TemperatureSensorPin);  
   int LightReading = analogRead(LightSensorPin); 
   
+  if (LightReading < 650)
+  {
+	  //If less than 650, then light - or a light at this point in time - is probably on
+	  LightStatus = 1;
+  }
+  else  //if it's not less than 650 (aka everything else) - the light is likely off.
+  {
+  	  LightStatus = 0;
+  }
   
   // Initialize to some sample values
   numbers[0] = 999;                   //sensorid
   numbers[1] = LightReading;          //light reading
   numbers[2] = TemperatureReading;    //temp reading
-  numbers[3] = 789;                   //random 1
-  numbers[4] = 12;                    //random 2
+  numbers[3] = CodeVersion;           //random 1 - version of the transmitter code
+  numbers[4] = 12;                    //random 2 - Transmitter estimation on light status (1 = on, 0 = off)
   numbers[5] = count;                 //count
 
   vw_send( (uint8_t *)numbers, sizeof(numbers));
